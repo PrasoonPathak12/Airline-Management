@@ -24,8 +24,15 @@ cursor.execute("""
 CREATE TABLE Users ( 
     user_name TEXT PRIMARY KEY,
     user_pass TEXT NOT NULL,
-    age INTEGER NOT NULL,
-    email_Id TEXT NOT NULL
+    dob TEXT NOT NULL,
+    email_Id TEXT NOT NULL,
+    phone INTEGER NOT NULL,
+    address1 TEXT NOT NULL,
+    address2 TEXT,
+    city TEXT NOT NULL,
+    state TEXT NOT NULL,
+    country TEXT NOT NULL,
+    zipcode INTEGER NOT NULL
 )
 """)
 

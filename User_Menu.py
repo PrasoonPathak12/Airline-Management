@@ -1,25 +1,22 @@
 from userSignUp import usersignup
+from userLogin import user_login
+
 def user_menu():
-    # import admin_login() from 'admin_login.py'
+    while True:
+        print("====================")
+        print("User Menu")
+        print("====================")
+        print("1--> User Registration (Sign Up)")
+        print("2--> User Login")
+        print("3--> Back")
 
+        choice = int(input("Enter your choice: "))
 
-    print("====================")
-    print("Airline Management System")
-    print("====================")
-
-    print("1--> User Registration(Sign Up)")
-    print("2--> User Login")
-    print("3--> Exit")
-
-def main():
-
-    choice=int(input("Enter your choice: "))
-    if choice not in (1,2,3):
-        print("Wrong Choice")
-    else:
         if choice == 1:
             usersignup()
         elif choice == 2:
-            user_menu()
+            user_login()
+        elif choice == 3:
+            break
         else:
-            print("Bye 👋👋")
+            print("Wrong Choice")

@@ -145,7 +145,6 @@ def usersignup():
 
     print("\nBasic account created successfully ✔\n")
 
-
     conn.commit()
     conn.close()
 

@@ -2,6 +2,7 @@ from state import state
 import sqlite3 as sql
 from rich.console import Console
 from rich.table import Table
+from booking import initiate_booking
 
 def userDashboard():
     conn = sql.connect('airline.db')
@@ -117,6 +118,7 @@ def userDashboard():
             update_profile()
         elif choice == "3":
             print("Flight booking screen")
+            initiate_booking()
         elif choice == "4":
             print("Logging out...")
             break   # EXIT dashboard

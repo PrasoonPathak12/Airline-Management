@@ -7,16 +7,18 @@ cursor = conn.cursor()
 
 cursor.execute("PRAGMA foreign_keys = ON;")
 
-# cursor.execute("DROP TABLE IF EXISTS Carriers")
-# cursor.execute("DROP TABLE IF EXISTS Users")
-# cursor.execute("DROP TABLE IF EXISTS Flights")
+cursor.execute("DROP TABLE IF EXISTS Carriers")
+cursor.execute("DROP TABLE IF EXISTS Users")
+cursor.execute("DROP TABLE IF EXISTS Flights")
+cursor.execute("DROP TABLE IF EXISTS Bookings")
 
 cursor.execute("""
 CREATE TABLE Flights (
     flight_id INTEGER PRIMARY KEY AUTOINCREMENT,
     flight_name TEXT NOT NULL,
     start_loc TEXT NOT NULL,
-    end_loc TEXT NOT NULL
+    end_loc TEXT NOT NULL,
+    base_price INTEGER NOT NULL
 )
 """)
 
@@ -32,7 +34,8 @@ CREATE TABLE Users (
     city TEXT NOT NULL,
     state TEXT NOT NULL,
     country TEXT NOT NULL,
-    zipcode INTEGER NOT NULL
+    zipcode INTEGER NOT NULL,
+    user_tier TEXT NOT NULL DEFAULT 'regular'
 )
 """)
 
@@ -47,6 +50,28 @@ CREATE TABLE Carriers (
     gold_user_discount INTEGER NOT NULL,
     flight_id INTEGER NOT NULL,
     FOREIGN KEY (flight_id) REFERENCES Flights(flight_id)
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Bookings (
+    booking_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name TEXT NOT NULL,
+    flight_id INTEGER NOT NULL,
+    carrier_id INTEGER NOT NULL,
+    source TEXT NOT NULL,
+    destination TEXT NOT NULL,
+    departure_date TEXT NOT NULL,
+    return_date TEXT,
+    no_of_passengers INTEGER NOT NULL,
+    base_price REAL NOT NULL,
+    discount_percent INTEGER DEFAULT 0,
+    total_price REAL NOT NULL,
+    booking_date TEXT NOT NULL,
+    status TEXT DEFAULT 'confirmed',
+    FOREIGN KEY (user_name) REFERENCES Users(user_name),
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id),
+    FOREIGN KEY (carrier_id) REFERENCES Carriers(Carrier_Id)
 )
 """)
 

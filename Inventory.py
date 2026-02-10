@@ -1,4 +1,6 @@
 import sqlite3
+from rich.console import Console
+from rich.table import Table
 
 def manage_inventory():
 
@@ -73,15 +75,29 @@ def manage_inventory():
         print("✅ Carrier inserted successfully.")
 
     def remove_carrier_details():
+        cursor.execute("SELECT * FROM Carriers")
+        carrier_details = cursor.fetchall()
+
+        table = Table(title="Carriers Data")
+
+        columns = [desc[0] for desc in cursor.description]
+        for col in columns:
+            table.add_column(col, style="cyan")
+
+        for carrier in carrier_details:
+            table.add_row(*map(str, carrier))
+
+        console = Console()
+        console.print(table)
+        
         carrier_id = int(input("Enter Carrier ID to remove: "))
-        flight_id = int(input("Enter Flight ID for reference: "))
 
         cursor.execute(
             """
             DELETE FROM Carriers
-            WHERE Carrier_Id = ? AND flight_id = ?
+            WHERE Carrier_Id = ?
             """,
-            (carrier_id, flight_id)
+            (carrier_id,)
         )
 
         if cursor.rowcount == 0:
@@ -90,17 +106,31 @@ def manage_inventory():
             conn.commit()
             print("✅ Carrier removed successfully.")
 
-    print("\n--- Manage Inventory ---")
-    print("1. Insert Carrier Details")
-    print("2. Remove Carrier Details")
+        confirmation_msg = input("Do you want to continue removing other carriers as well? Enter y for yes, n for No: ")
+        if confirmation_msg.lower() == 'y':
+            return True
+        elif confirmation_msg.lower() == 'n':
+            return False
+        else:
+            return False
 
-    choice = input("Enter your choice: ")
+    while True:
+        print("\n--- Manage Inventory ---")
+        print("1. Insert Carrier Details")
+        print("2. Remove Carrier Details")
+        print("3. Exit")
 
-    if choice == "1":
-        insert_carrier_details()
-    elif choice == "2":
-        remove_carrier_details()
-    else:
-        print("❌ Invalid choice")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            insert_carrier_details()
+        elif choice == "2":
+            while True:
+                msg = remove_carrier_details()
+                if msg == False:
+                    break
+        else:
+            print("❌ Invalid choice")
+            break
 
     conn.close()

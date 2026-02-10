@@ -83,7 +83,7 @@ table = Table(title="Flights Data")
 
 columns = [desc[0] for desc in cursor.description]
 for col in columns:
-    table.add_column(col, style="cyan", no_wrap=True)
+    table.add_column(col, style="cyan")
 
 for row in rows:
     table.add_row(*map(str, row))

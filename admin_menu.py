@@ -1,5 +1,5 @@
 from Inventory import manage_inventory
-
+from users import manage_users
 
 def view_admin_menu():
     while True:
@@ -16,7 +16,8 @@ def view_admin_menu():
         else:
             if choice==1:
                 manage_inventory()
+            elif choice == 2:
+                manage_users()
             else:
-                pass
-                # manage_user()
+                break
         return

@@ -17,6 +17,5 @@ def userDashboard():
         elif choice == "3":
             print("Logging out...")
             break   # EXIT dashboard
-
         else:
             print("Invalid choice")

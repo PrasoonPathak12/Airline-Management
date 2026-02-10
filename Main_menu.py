@@ -1,5 +1,7 @@
 from Admin_login import admin_login
 from User_Menu import user_menu
+from state import state
+from admin_menu import view_admin_menu
 
 def main_menu():
     print("====================")
@@ -15,7 +17,10 @@ def main():
         choice = int(input("Enter your choice: "))
 
         if choice == 1:
-            admin_login()
+            if not state.isLoggedIn:
+                admin_login()
+            else:
+                view_admin_menu()
         elif choice == 2:
             user_menu()
         elif choice == 3:

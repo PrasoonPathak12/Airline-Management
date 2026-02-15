@@ -1,6 +1,11 @@
+
 import sqlite3
 from rich.console import Console
 from rich.table import Table
+from Choice import get_choice
+
+#CHANGES
+from state import state
 
 def manage_users():
     conn = sqlite3.connect("airline.db")
@@ -22,7 +27,7 @@ def manage_users():
         console = Console()
         console.print(table)
         
-        user_name = int(input("Enter Username to remove: "))
+        user_name = input("Enter Username to remove: ")
 
         cursor.execute(
             """
@@ -47,20 +52,31 @@ def manage_users():
             return False
 
     while True:
+        
         print("\n--- Manage Users ---")
         print("1. Remove User Details")
         print("2. Exit")
 
-        choice = input("Enter your choice: ")
+        try:
+            choice = get_choice()
+        except KeyboardInterrupt:
+            break
 
-        if choice == "1":
+        if choice == 1:
             while True:
                 msg = remove_user_details()
                 if msg == False:
                     break
-        elif choice == "2":
+        elif choice == 2:
             print("Exiting user management...")
-            break
+            #CHANGES
+            state.isLoggedIn=False
+            try:
+                from Main_menu import main_menu
+                main_menu()
+                break
+            except Exception as e:
+                print(f"Exception: {e}")
         else:
             print("❌ Invalid choice")
 

@@ -1,5 +1,7 @@
 from userSignUp import usersignup
 from userLogin import user_login
+from Choice import get_choice
+import sys
 
 def user_menu():
     while True:
@@ -10,7 +12,10 @@ def user_menu():
         print("2--> User Login")
         print("3--> Back")
 
-        choice = int(input("Enter your choice: "))
+        try:
+            choice = get_choice()
+        except KeyboardInterrupt:
+            sys.exit()
 
         if choice == 1:
             usersignup()
